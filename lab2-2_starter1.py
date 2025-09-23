@@ -23,15 +23,51 @@ def ip_parse(line):
 ## This is the main block that will run first. 
 ## It will call any functions from above that we might need.
 if __name__ == "__main__":
+    unique_ips = set()   
+    total = 0
 
     with open(LOGFILE, "r") as f:
         for line in f:
-            print (ip_parse(line.strip()))
+            total += 1
+            ip = ip_parse(line.strip())
+            if ip:
+                unique_ips.add(ip)
 
-unique_ips = set(ip_parse)
+print(f"Total lines read: "{total}")
+print(f"Number of unique IPs: {len(unique_ips)}")
+sorted_ips = sorted(unique_ips)[:10]  
+print("First 10 unique IPs:")
+for ip in sorted_ips:
+        print(ip)
 
-# Print each unique IP
-print("Unique IPs:")
-for ip in unique_ips:
-    print(ip)
-    
+from collections import defaultdict
+
+counts = defaultdict(int)           # Create a dictionary to keep track of IPs
+
+with open("sample_auth_small.log") as f:
+    for line in f:
+        if "Failed password" in line or "Invalid user" in line:
+            # extract ip
+            ip = ip_parse(line)
+            if ip:
+                counts[ip] += 1
+print(counts)
+
+import time
+
+def top_n(counts, n=5):
+    return sorted(counts.items(), key=lambda kv: kv[1], reverse=True)[:n]
+
+with open ("sample_auth_small.log") as f:
+    for line in f:
+        
+
+  
+        
+
+start = time.time()
+# run counting
+end = time.time()
+print("Top 5 attackers IPS:")
+print()
+print("Elapsed:", end-start, "seconds")
