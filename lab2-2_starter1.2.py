@@ -20,11 +20,37 @@ def ip_parse(line):
 
     return None
 
+count = 0
+with open ("sample_auth_small.log", "r") as f:
+    for line in f:
+        count += 1
+print("Lines read:", count)
+
+# Convert to a set to remove duplicates
+unique_ips = set()
+count_uni = 0
+firstTen = 0
+
 ## This is the main block that will run first. 
 ## It will call any functions from above that we might need.
 if __name__ == "__main__":
     with open(LOGFILE, "r") as f:
         for line in f:
-            print(ip_parse(line.strip()))
+            ip = ip_parse(line.strip())
+            if ip:
+                unique_ips.add(ip)
+
+for ip in unique_ips:
+    count_uni += 1
+
+print("Unique IPs:", count_uni)
+
+print("First 10 IPS:")    
+for ip in unique_ips:
+    if firstTen < 10:
+        print(ip)
+        firstTen += 1
+    else:
+        break             
             
 
