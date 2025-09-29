@@ -67,6 +67,17 @@ print(counts)
 def top_n(counts, n=5):
     return sorted(counts.items(), key=lambda kv: kv[1], reverse=True)[:n]
 
+nums = 1
+print("Top 5 attackers IPS:")
+for ip, failed in top_n(counts, 5):
+    print(f"{nums}. {ip} - {failed}")
+    nums += 1
+
+with open("failed.txt", "w") as c:
+    for ip, failed in counts.items():
+        c.write(f":{ip}, {failed}")
+
+
 import time
 start = time.time()
 # run counting
